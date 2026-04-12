@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "duchanska": {
+      "command": "python",
+      "args": ["C:/Users/mikoo/Documents/bam/mad_max/duchanska_server.py"]
+    }
+  }
+}
