@@ -1,5 +1,5 @@
 """
-Gastown: Duchanska Sciezka MCP Server
+Gastown: Fury Road MCP Server
 Ucieczka z Cytadeli przez Pustynie do Zielonego Miejsca
 """
 
@@ -185,7 +185,7 @@ characters = {
 
 
 def start_game(player_name: str, character: str = None) -> str:
-    """Rozpocznij nową grę - Duchańska Ścieżka"""
+    """Rozpocznij nową grę - Fury Road"""
     global game_state
 
     # Wybierz postać lub losuj
@@ -527,7 +527,7 @@ def reset() -> str:
 TOOLS = [
     {
         "name": "start_game",
-        "description": "Rozpocznij nową grę w Duchańskiej Ścieżce",
+        "description": "Rozpocznij nową grę w Fury Road",
         "input_schema": {
             "type": "object",
             "properties": {

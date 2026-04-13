@@ -1,11 +1,11 @@
-# 🚗 DUCHAŃSKA ŚCIEŻKA
+# 🚗 FURY ROAD
 ## Post-apo One-Shot dla D&D 5e
 
 ---
 
 ### PODSUMOWANIE
 
-**Tytuł:** Duchańska Ścieżka  
+**Tytuł:** Fury Road  
 **Poziom:** 3-5 graczy (3-5 poziom)  
 **Czas:** 3-4 godziny  
 **Setting:** Post-apokaliptyczna pustynia przypominająca świat z Mad Max  
