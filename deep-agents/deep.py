@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, httpx, json
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -8,10 +8,13 @@ from config import get_openrouter_model
 
 from pydantic_ai import Agent, RunContext
 from pydantic_deep import create_deep_agent, DeepAgentDeps, StateBackend, LocalBackend
+from pydantic_ai.capabilities import MCP  
+
+from pydantic_ai import PrefixedToolset, FunctionToolset
+
+
+
 from langfuse import get_client, propagate_attributes
-
-import json
-
 
 #langfuse (init)
 Agent.instrument_all()
@@ -30,12 +33,26 @@ async def add_italian_word(ctx: RunContext[DeepAgentDeps], word: str, translatio
     await ctx.deps.backend.write_file(vocab_path, json.dumps(vocab, indent=2, ensure_ascii=False))
     return f"Added: {word} = {translation} (saved to {vocab_path})"
 
+#tool
+async def wiki_lookup_italian(ctx: RunContext[DeepAgentDeps], word: str) -> str:
+    """Look up an Italian word on Italian Wikipedia (no API key needed)."""
+    try:
+        resp = await httpx.AsyncClient().get(
+            f"https://it.wikipedia.org/w/api.php?action=query&titles={word}&prop=extracts&exintro&format=json&explaintext"
+        )
+        data = resp.json()
+        page = next(iter(data["query"]["pages"].values()))
+        if "extract" in page:
+            return f"Definizione di {word}: {page['extract'][:500]}"
+        return f"Parola {word} non trovata su Wikipedia."
+    except:
+        return "Errore nel recupero dei dati."
 
 
 #agent
 agent = create_deep_agent(
     model=get_openrouter_model(),
-    instructions='You always respond in Italian.',
+    instructions='''You always respond in Italian.''',
     include_todo=True,
     skill_directories=["skills"],
     instrument=True  
