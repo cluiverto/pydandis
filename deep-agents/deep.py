@@ -11,6 +11,8 @@ from pydantic_deep import create_deep_agent, DeepAgentDeps, StateBackend, LocalB
 from pydantic_ai.capabilities import MCP  
 
 from pydantic_ai import PrefixedToolset, FunctionToolset
+from pydantic_ai.mcp import MCPServerStreamableHTTP
+
 
 
 
@@ -19,6 +21,8 @@ from langfuse import get_client, propagate_attributes
 #langfuse (init)
 Agent.instrument_all()
 
+
+server = MCPServerStreamableHTTP(os.getenv("ALPHAVANTAGE_URL"))
 
 #tool
 async def add_italian_word(ctx: RunContext[DeepAgentDeps], word: str, translation: str) -> str:
@@ -54,6 +58,7 @@ agent = create_deep_agent(
     model=get_openrouter_model(),
     instructions='''You always respond in Italian.''',
     include_todo=True,
+    toolsets=[server],
     skill_directories=["skills"],
     instrument=True  
 )
