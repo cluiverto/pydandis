@@ -25,6 +25,11 @@ def send_logistics_response(operation_id: str = None, message: str = None):
     print(f"[TOOL] send_logistics_response -> {message}")
     return "logistics_response_sent"
 
+@tool
+def route_to(specialist: str, context: str) -> str:
+    """Route the conversation to another specialist (inventory|transportation|supplier)."""
+    return f"ROUTE_TO:{specialist}:{context}"
+
 
 # ─── INVENTORY & WAREHOUSE TOOLS ─────────────────────────────────
 
@@ -67,6 +72,7 @@ def optimize_costs(cost_type: str = None, **kwargs) -> str:
 INVENTORY_TOOLS = [
     manage_inventory, optimize_warehouse, forecast_demand,
     manage_quality, scale_operations, optimize_costs, send_logistics_response,
+    route_to
 ]
 
 
@@ -118,6 +124,7 @@ TRANSPORTATION_TOOLS = [
     track_shipments, arrange_shipping, coordinate_operations,
     manage_special_handling, process_returns, optimize_delivery,
     manage_disruption, send_logistics_response,
+    route_to
 ]
 
 
@@ -135,7 +142,7 @@ def handle_compliance(compliance_type: str = None, **kwargs) -> str:
     print(f"[TOOL] handle_compliance(compliance_type={compliance_type}, kwargs={kwargs})")
     return "compliance_handled"
 
-SUPPLIER_TOOLS = [evaluate_suppliers, handle_compliance, send_logistics_response]
+SUPPLIER_TOOLS = [evaluate_suppliers, handle_compliance, send_logistics_response, route_to]
 
 
 # ─── LLM (OpenRouter jak w single) ───────────────────────────────
