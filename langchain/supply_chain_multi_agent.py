@@ -233,23 +233,43 @@ def build_graph():
 graph = build_graph()
 
 
+# if __name__ == "__main__":
+#     example = {
+#         "operation_id": "OP-12345",
+#         "type": "inventory_management",
+#         "priority": "high",
+#         "location": "Warehouse A",
+#     }
+#     queries = [
+#         "We're running critically low on SKU-12345. Current stock is 50 units but we have 200 units on backorder. What's our reorder strategy?",
+#         "We need to arrange urgent shipping for a cold chain shipment from Poland to Germany.",
+#         "Evaluate supplier Acme Corp for quality and compliance issues.",
+#     ]
+#     for q in queries:
+#         print(f"\n{'='*60}")
+#         print(f">> {q}")
+#         print("="*60)
+#         r = graph.invoke({"operation": example, "messages": [HumanMessage(content=q)]})
+#         for m in r["messages"]:
+#             if hasattr(m, "content") and m.content:
+#                 print(f"[{m.type}] {m.content[:300]}")
+
+
 if __name__ == "__main__":
-    example = {
-        "operation_id": "OP-12345",
-        "type": "inventory_management",
-        "priority": "high",
-        "location": "Warehouse A",
-    }
-    queries = [
-        "We're running critically low on SKU-12345. Current stock is 50 units but we have 200 units on backorder. What's our reorder strategy?",
-        "We need to arrange urgent shipping for a cold chain shipment from Poland to Germany.",
-        "Evaluate supplier Acme Corp for quality and compliance issues.",
-    ]
-    for q in queries:
-        print(f"\n{'='*60}")
-        print(f">> {q}")
-        print("="*60)
-        r = graph.invoke({"operation": example, "messages": [HumanMessage(content=q)]})
-        for m in r["messages"]:
+    print("Supply Chain Agent - wpisz 'exit' aby wyjść\n")
+    
+    while True:
+        query = input("Ty: ")
+        if query.lower() in ["exit", "quit"]:
+            break
+        
+        result = graph.invoke({
+            "operation": {"type": "user_query"},
+            "messages": [HumanMessage(content=query)]
+        })
+        
+        print("\n=== Odpowiedź ===")
+        for m in result["messages"]:
             if hasattr(m, "content") and m.content:
-                print(f"[{m.type}] {m.content[:300]}")
+                print(f"[{m.type}] {m.content[:500]}")
+        print()
